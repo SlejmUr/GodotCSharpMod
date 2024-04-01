@@ -1,4 +1,5 @@
 ﻿using ModAPI.V1.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace ModAPI.V1
@@ -32,13 +33,18 @@ namespace ModAPI.V1
 
     internal class EventInvokeLocation
     {
+#if NET8_0
         public required Type Mod;
         public required object Target;
         public required MethodInfo Method;
-
+#elif NET6_0
+        public Type? Mod;
+        public object? Target;
+        public MethodInfo? Method;
+#endif
         public override string ToString()
         {
-            return $"Name: {Mod.Name} Target: {Target} Method: {Method.Name}";
+            return $"Name: {Mod?.Name} Target: {Target} Method: {Method?.Name}";
         }
     }
 }

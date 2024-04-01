@@ -19,8 +19,8 @@ namespace ModAPI.ModLoad
         static Enums.ModAPIEnum ModAPI = Enums.ModAPIEnum.None;
         public static void Init()
         {
-
             SharedAssemblies.Add(CoreApiAssembly.GetName());
+            SharedAssemblies.Add(typeof(Godot.GodotObject).Assembly.GetName());
             var dep = Path.Combine(Directory.GetCurrentDirectory(), ModsDirName, "Dependencies");
             if (!Directory.Exists(dep))
                 Directory.CreateDirectory(dep);

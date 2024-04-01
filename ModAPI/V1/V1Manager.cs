@@ -143,7 +143,7 @@ namespace ModAPI.V1
             {
                 foreach (EventInvokeLocation eventInvokeLocation in list)
                 {
-                    eventInvokeLocation.Method.Invoke(eventInvokeLocation.Target, [customModInterface]);
+                    eventInvokeLocation.Method?.Invoke(eventInvokeLocation.Target, new object[] { customModInterface });
                 }
             }
         }
