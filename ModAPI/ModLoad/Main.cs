@@ -1,4 +1,5 @@
-﻿using ModAPI.Attributes;
+﻿using Godot.Bridge;
+using ModAPI.Attributes;
 using ModAPI.V1;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -28,7 +29,6 @@ namespace ModAPI.ModLoad
             {
                 var assembly = MainLoadContext.LoadFromAssemblyPath(dll);
                 var assemblyName = assembly.GetName();
-                //  Replace when not debug!
                 Debugger.Print(assemblyName + " Loaded as Dependecy");
                 SharedAssemblies.Add(assemblyName);
             }
@@ -114,7 +114,7 @@ namespace ModAPI.ModLoad
                         break;
                 }
                 //  For godot.
-                //  ScriptManagerBridge.LookupScriptsInAssembly(assembly);
+               ScriptManagerBridge.LookupScriptsInAssembly(assembly);
             }
         }
 
