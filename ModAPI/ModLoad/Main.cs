@@ -45,7 +45,7 @@ namespace ModAPI.ModLoad
             var attrib = assembly.GetCustomAttribute<ModAPITypeAttribute>();
             if (attrib == null)
                 return false;
-            
+
             if (attrib.APIType != Enums.ModAPIEnum.None)
             {
                 ModMainAssembly = assembly;
@@ -72,6 +72,7 @@ namespace ModAPI.ModLoad
 
         public static void DeInit()
         {
+            V1IModManager.Unload();
             Mods.Clear();
             SharedAssemblies.Clear();
             ModMainAssembly = null;
@@ -88,13 +89,13 @@ namespace ModAPI.ModLoad
                 List<string> sharedAssemblies = new List<string>();
                 foreach (AssemblyName assemblyName2 in SharedAssemblies)
                 {
-                    string sharedAssemblyName = assemblyName2.Name;
+                    string? sharedAssemblyName = assemblyName2.Name;
                     if (sharedAssemblyName != null)
                     {
                         sharedAssemblies.Add(sharedAssemblyName);
                     }
                 }
-                var tuple =  ModLoadContextWrapper.CreateAndLoadFromAssemblyName(new AssemblyName(assemblyName), mod, sharedAssemblies, MainLoadContext, false);
+                var tuple = ModLoadContextWrapper.CreateAndLoadFromAssemblyName(new AssemblyName(assemblyName), mod, sharedAssemblies, MainLoadContext, false);
                 Mods.Add(tuple);
                 var assembly = tuple.Item1;
                 switch (ModAPI)
@@ -114,19 +115,18 @@ namespace ModAPI.ModLoad
                 }
                 //  For godot.
                 //  ScriptManagerBridge.LookupScriptsInAssembly(assembly);
-                //  Do real mod load.
             }
         }
 
 
-        [Obsolete("Recommend using LoadPlugins instead if loading more than 1")]
+        [Obsolete("Recommend using LoadPlugins instead if you load more than 1 mod/assembly")]
         public static ValueTuple<Assembly, ModLoadContextWrapper> GetAndLoadPlugin(string assemblyPath)
         {
             string assemblyName = Path.GetFileNameWithoutExtension(assemblyPath);
             List<string> sharedAssemblies = new List<string>();
             foreach (AssemblyName assemblyName2 in Main.SharedAssemblies)
             {
-                string sharedAssemblyName = assemblyName2.Name;
+                string? sharedAssemblyName = assemblyName2.Name;
                 if (sharedAssemblyName != null)
                 {
                     sharedAssemblies.Add(sharedAssemblyName);
@@ -136,7 +136,7 @@ namespace ModAPI.ModLoad
         }
 
         //No idea how to use, nothing use this
-        public static bool UnloadPlugin(ref ModLoadContextWrapper ModLoadContext)
+        public static bool UnloadPlugin(ref ModLoadContextWrapper? ModLoadContext)
         {
             bool result;
             try

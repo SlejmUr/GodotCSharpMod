@@ -11,11 +11,11 @@ namespace ModAPI.ModLoad
         public bool LoadWithoutAssemblyDefinedModAPI;
         public ModAPIEnum ModAPI;
 
-        public LoadSettings() 
-        { 
+        public LoadSettings()
+        {
             this.V1_EnableICustomModInterfaceParsing = false;
             this.LoadWithoutAssemblyDefinedModAPI = false;
             this.ModAPI = ModAPIEnum.None;
-        }   
+        }
     }
 }

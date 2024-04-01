@@ -32,13 +32,13 @@ namespace ModAPI.V1
 
     internal class EventInvokeLocation
     {
-        public Type Mod;
-        public object Target;
-        public MethodInfo Method;
+        public required Type Mod;
+        public required object Target;
+        public required MethodInfo Method;
 
         public override string ToString()
         {
-            return $"Name: {Mod.Name} Target:{Target.ToString()} Method: {Method.Name}";
+            return $"Name: {Mod.Name} Target: {Target} Method: {Method.Name}";
         }
     }
 }

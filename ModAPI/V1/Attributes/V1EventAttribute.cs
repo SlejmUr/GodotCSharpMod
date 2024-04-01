@@ -9,9 +9,9 @@
             InterfaceTypeNumer = interfaceTypeNumer;
         }
 
-        public V1EventAttribute() 
-        { 
-        
+        public V1EventAttribute()
+        {
+
         }
     }
 }

@@ -62,13 +62,15 @@ namespace ModAPI.V1
                 if (eventAttrib != null && eventAttrib.InterfaceTypeNumer != 0)
                 {
                     Debugger.Print($"(V1) {methodInfo.Name} attached to number: {eventAttrib.InterfaceTypeNumer}");
-                    object obj;
+                    object? obj;
                     if (!ModHandlers.TryGetValue(plugin, out obj))
                     {
                         obj = Activator.CreateInstance(plugin);
-                        ModHandlers.Add(plugin, obj);
+                        if (obj != null)
+                            ModHandlers.Add(plugin, obj);
                     }
-                    RegisterEventMethod(plugin, obj, methodInfo, eventAttrib);
+                    if (obj != null)
+                        RegisterEventMethod(plugin, obj, methodInfo, eventAttrib);
                 }
             }
         }
@@ -87,7 +89,7 @@ namespace ModAPI.V1
                 //  TLD: Do not use ICustomModInterface if you can.
                 if (numb != eventAttribute.InterfaceTypeNumer)
                 {
-                    Debugger.Print("Event ID missmatch! "  + numb + " " + eventAttribute.InterfaceTypeNumer);
+                    Debugger.Print("Event ID missmatch! " + numb + " " + eventAttribute.InterfaceTypeNumer);
                     return;
                 }
             }
@@ -101,7 +103,7 @@ namespace ModAPI.V1
             else
             {
                 Debugger.Print(string.Format("Registered event {0} ({1}) in plugin {2}!", methodInfo.Name, eventAttribute.InterfaceTypeNumer, plugin.FullName));
-                V1IModManager.RegisterMethod(plugin.Assembly.FullName, methodInfo, eventAttribute.InterfaceTypeNumer);
+                V1IModManager.RegisterMethod(plugin.Assembly.GetName().FullName, methodInfo, eventAttribute.InterfaceTypeNumer);
                 @event.RegisterInvoker(plugin, eventHandler, methodInfo);
             }
         }

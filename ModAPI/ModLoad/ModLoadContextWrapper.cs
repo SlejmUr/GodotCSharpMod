@@ -8,7 +8,7 @@ namespace ModAPI.ModLoad
     //  Thanks Godot for this!
     public sealed class ModLoadContextWrapper
     {
-        private ModLoadContext _ModLoadContext;
+        private ModLoadContext? _ModLoadContext;
         private readonly WeakReference _weakReference;
         public ModLoadContextWrapper(ModLoadContext ModLoadContext, WeakReference weakReference)
         {
@@ -21,7 +21,7 @@ namespace ModAPI.ModLoad
             [MethodImpl(MethodImplOptions.NoInlining)]
             get
             {
-                ModLoadContext ModLoadContext = this._ModLoadContext;
+                ModLoadContext? ModLoadContext = this._ModLoadContext;
                 if (ModLoadContext == null)
                 {
                     return string.Empty;
@@ -35,7 +35,7 @@ namespace ModAPI.ModLoad
             [MethodImpl(MethodImplOptions.NoInlining)]
             get
             {
-                ModLoadContext ModLoadContext = this._ModLoadContext;
+                ModLoadContext? ModLoadContext = this._ModLoadContext;
                 return ModLoadContext == null || ModLoadContext.IsCollectible;
             }
         }
@@ -61,7 +61,7 @@ namespace ModAPI.ModLoad
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void Unload()
         {
-            ModLoadContext ModLoadContext = this._ModLoadContext;
+            ModLoadContext? ModLoadContext = this._ModLoadContext;
             if (ModLoadContext != null)
             {
                 ModLoadContext.Unload();

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Godot.NET.Sdk/4.3.0-dev.5">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="libs\**" />
+    <EmbeddedResource Remove="libs\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libs\ModAPI\ModAPI.csproj" />
+  </ItemGroup>
+</Project>

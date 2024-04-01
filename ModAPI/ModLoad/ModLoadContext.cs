@@ -10,7 +10,7 @@ namespace ModAPI.ModLoad
         private readonly AssemblyDependencyResolver _resolver;
         private readonly ICollection<string> _sharedAssemblies;
         private readonly AssemblyLoadContext _mainLoadContext;
-        public string AssemblyLoadedPath {get; private set; }
+        public string AssemblyLoadedPath { get; private set; }
 
         public ModLoadContext(string pluginPath, ICollection<string> sharedAssemblies, AssemblyLoadContext mainLoadContext, bool isCollectible) : base(isCollectible)
         {
@@ -20,7 +20,7 @@ namespace ModAPI.ModLoad
             this.AssemblyLoadedPath = string.Empty;
             if (string.IsNullOrEmpty(AppContext.BaseDirectory))
             {
-                string baseDirectory = Path.GetDirectoryName(pluginPath);
+                string? baseDirectory = Path.GetDirectoryName(pluginPath);
                 if (baseDirectory != null)
                 {
                     if (!Path.EndsInDirectorySeparator(baseDirectory))

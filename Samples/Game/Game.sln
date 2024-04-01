@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "Game.csproj", "{13B1602D-4061-48EC-A447-A77F603B4EA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModAPI", "libs\PluginAPI\ModAPI.csproj", "{1343DFC2-B42E-4078-AD22-271935A56864}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13B1602D-4061-48EC-A447-A77F603B4EA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13B1602D-4061-48EC-A447-A77F603B4EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13B1602D-4061-48EC-A447-A77F603B4EA0}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{13B1602D-4061-48EC-A447-A77F603B4EA0}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{13B1602D-4061-48EC-A447-A77F603B4EA0}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{13B1602D-4061-48EC-A447-A77F603B4EA0}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{13B1602D-4061-48EC-A447-A77F603B4EA0}.Release|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{13B1602D-4061-48EC-A447-A77F603B4EA0}.Release|Any CPU.Build.0 = ExportRelease|Any CPU
+		{1343DFC2-B42E-4078-AD22-271935A56864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1343DFC2-B42E-4078-AD22-271935A56864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1343DFC2-B42E-4078-AD22-271935A56864}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1343DFC2-B42E-4078-AD22-271935A56864}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{1343DFC2-B42E-4078-AD22-271935A56864}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{1343DFC2-B42E-4078-AD22-271935A56864}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{1343DFC2-B42E-4078-AD22-271935A56864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1343DFC2-B42E-4078-AD22-271935A56864}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0A90655-3F7D-4E7D-96A2-2A493D0A1874}
+	EndGlobalSection
+EndGlobal
