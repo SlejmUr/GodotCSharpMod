@@ -6,14 +6,14 @@ using System.Runtime.Loader;
 
 namespace ModAPI.ModLoad
 {
-    public class Main
+    public class MainLoader
     {
         //  Source Code used: https://github.com/godotengine/godot/blob/master/modules/mono/glue/GodotSharp/GodotPlugins/Main.cs
         //  Thanks Godot for this!
 
         public static string ModsDirName = "Mods";
         static readonly List<AssemblyName> SharedAssemblies = new List<AssemblyName>();
-        static readonly Assembly CoreApiAssembly = typeof(Main).Assembly;
+        static readonly Assembly CoreApiAssembly = typeof(MainLoader).Assembly;
         static readonly AssemblyLoadContext MainLoadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
         static Assembly? ModMainAssembly = null;
         public static List<(Assembly assembly, ModLoadContextWrapper context)> Mods = new();
@@ -34,10 +34,17 @@ namespace ModAPI.ModLoad
             }
         }
 
-        //  Use with godot, currently not including it.
         public static void AddSharedAssembly(Assembly assembly)
         {
             SharedAssemblies.Add(assembly.GetName());
+        }
+
+        public static void AddSharedAssembly(string filename)
+        {
+            var assembly = MainLoadContext.LoadFromAssemblyPath(filename);
+            var assemblyName = assembly.GetName();
+            Debugger.Print(assemblyName + " Loaded as Dependecy");
+            SharedAssemblies.Add(assemblyName);
         }
 
         public static bool SetMainModAssembly(Assembly assembly)
@@ -118,13 +125,11 @@ namespace ModAPI.ModLoad
             }
         }
 
-
-        [Obsolete("Recommend using LoadPlugins instead if you load more than 1 mod/assembly")]
-        public static ValueTuple<Assembly, ModLoadContextWrapper> GetAndLoadPlugin(string assemblyPath)
+        public static void LoadPlugin(string DllName)
         {
-            string assemblyName = Path.GetFileNameWithoutExtension(assemblyPath);
+            string assemblyName = Path.GetFileNameWithoutExtension(DllName);
             List<string> sharedAssemblies = new List<string>();
-            foreach (AssemblyName assemblyName2 in Main.SharedAssemblies)
+            foreach (AssemblyName assemblyName2 in SharedAssemblies)
             {
                 string? sharedAssemblyName = assemblyName2.Name;
                 if (sharedAssemblyName != null)
@@ -132,7 +137,43 @@ namespace ModAPI.ModLoad
                     sharedAssemblies.Add(sharedAssemblyName);
                 }
             }
-            return ModLoadContextWrapper.CreateAndLoadFromAssemblyName(new AssemblyName(assemblyName), assemblyPath, sharedAssemblies, Main.MainLoadContext, false);
+            var tuple = ModLoadContextWrapper.CreateAndLoadFromAssemblyName(new AssemblyName(assemblyName), Path.GetDirectoryName(DllName), sharedAssemblies, MainLoadContext, false);
+            Mods.Add(tuple);
+            var assembly = tuple.Item1;
+            switch (ModAPI)
+            {
+                case Enums.ModAPIEnum.V1:
+                    V1Manager.RegisterEvents(assembly);
+                    break;
+                case Enums.ModAPIEnum.V2:
+                    //V2Manager.RegisterEvents(assembly);
+                    break;
+                case Enums.ModAPIEnum.All:
+                    V1Manager.RegisterEvents(assembly);
+                    //V2Manager.RegisterEvents(assembly);
+                    break;
+                default:
+                    break;
+            }
+            //  For godot.
+            ScriptManagerBridge.LookupScriptsInAssembly(assembly);
+        }
+
+
+        [Obsolete("Recommend using LoadPlugins instead if you load more than 1 mod/assembly")]
+        public static ValueTuple<Assembly, ModLoadContextWrapper> GetAndLoadPlugin(string assemblyPath)
+        {
+            string assemblyName = Path.GetFileNameWithoutExtension(assemblyPath);
+            List<string> sharedAssemblies = new List<string>();
+            foreach (AssemblyName assemblyName2 in MainLoader.SharedAssemblies)
+            {
+                string? sharedAssemblyName = assemblyName2.Name;
+                if (sharedAssemblyName != null)
+                {
+                    sharedAssemblies.Add(sharedAssemblyName);
+                }
+            }
+            return ModLoadContextWrapper.CreateAndLoadFromAssemblyName(new AssemblyName(assemblyName), assemblyPath, sharedAssemblies, MainLoader.MainLoadContext, false);
         }
 
         //No idea how to use, nothing use this

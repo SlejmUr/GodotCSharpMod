@@ -13,10 +13,10 @@ public partial class Menu : Control
 	{
         Debugger.Enabled = true;
         V1Manager.EnableICustomModInterfaceParsing = true;
-        Main.Init();
-        Main.AddSharedAssembly(typeof(Menu).Assembly);
-        Main.SetMainModAssembly(typeof(Menu).Assembly);
-        Main.LoadPlugins();
+        MainLoader.Init();
+        MainLoader.AddSharedAssembly(typeof(Menu).Assembly);
+        MainLoader.SetMainModAssembly(typeof(Menu).Assembly);
+        MainLoader.LoadPlugins();
         /*
 		PluginAPI.Test.Main.Init();
 		bool Loaded = PluginAPI.Test.Main.LoadProjectAssembly("G:\\GODOT\\PluginMaker\\Game\\EXPORT\\Mods\\Plugin1.dll", out string asmPath, out var assembly);
@@ -69,10 +69,6 @@ public partial class Menu : Control
         PluginAPI.Test.Main.UnloadPlugin(ref x.Item2);
         */
 
-
-        /*
-		var method = typeof(AssemblyLoader).GetMethod(nameof(AssemblyLoader.Initialize));
-        method.Invoke(null, null);*/
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
