@@ -1,5 +1,5 @@
 ﻿<!-- Set your Godot SDK here: -->
-<Project Sdk="Godot.NET.Sdk/4.3.0-dev.5">
+<Project Sdk="Godot.NET.Sdk/4.3.0-dev.6">
   <PropertyGroup>
 	 <!-- Change framework: to net6.0 or net8.0 back -->
     <TargetFramework>net8.0</TargetFramework>

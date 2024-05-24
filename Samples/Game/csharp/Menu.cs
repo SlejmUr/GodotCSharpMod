@@ -4,6 +4,8 @@ using ModAPI;
 using ModAPI.V1;
 using ModAPI.ModLoad;
 using Game.csharp.ModAdds;
+using ModAPI.V2;
+using Game.csharp.v2;
 namespace Game;
 
 public partial class Menu : Control
@@ -17,6 +19,8 @@ public partial class Menu : Control
         MainLoader.AddSharedAssembly(typeof(Menu).Assembly);
         MainLoader.SetMainModAssembly(typeof(Menu).Assembly);
         MainLoader.LoadPlugins();
+        //V2EventManager.SubscribeEvent<func2>(v2runner.func2_run);
+        //V2EventManager.SubscribeEvent<test2>(v2runner.test_run);
         /*
 		PluginAPI.Test.Main.Init();
 		bool Loaded = PluginAPI.Test.Main.LoadProjectAssembly("G:\\GODOT\\PluginMaker\\Game\\EXPORT\\Mods\\Plugin1.dll", out string asmPath, out var assembly);
@@ -79,7 +83,7 @@ public partial class Menu : Control
 
     public override void _ExitTree()
     {
-        Main.DeInit();
+        MainLoader.DeInit();
     }
 
     public void TestPressed()
@@ -88,8 +92,18 @@ public partial class Menu : Control
         V1Manager.ExecuteEvent(test);
         GD.Print("Bool:" + test.Test);
         GD.Print("TEST");
-		
-	}
+
+        func2 func2 = new()
+        { 
+            x = 66,
+            y = 99
+        };
+        V2EventManager.TriggerEvent(func2);
+        GD.Print(func2.y);
+        GD.Print(func2.x);
+
+
+    }
     public void Test2Pressed()
     {
         var func = new Functioner();
@@ -97,5 +111,22 @@ public partial class Menu : Control
         func.FuncVoidParam(111);
         GD.Print("Number (we set as 3 inside)"+func.Number);
         GD.Print("TEST 2!");
+
+        test2 test2 = new()
+        {
+            yeet = "yeeeeeet",
+            func = new()
+            { 
+                x = 66,
+                y = 99,
+            }
+        };
+        V2EventManager.TriggerEvent(test2);
+        GD.Print(test2.yeet);
+        GD.Print(test2.func.y);
+        GD.Print(test2.func.x);
+        V2EventManager.TriggerEvent(test2.func);
+        GD.Print(test2.func.y);
+        GD.Print(test2.func.x);
     }
 }

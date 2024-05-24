@@ -5,8 +5,8 @@
         None,
         Interfaces,
         V1 = Interfaces,
-        Attributes,
-        V2 = Attributes,
+        Events,
+        V2 = Events,
         All,
     }
 }

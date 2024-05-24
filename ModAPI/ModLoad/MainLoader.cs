@@ -1,6 +1,7 @@
 ﻿using Godot.Bridge;
 using ModAPI.Attributes;
 using ModAPI.V1;
+using ModAPI.V2;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -63,11 +64,11 @@ namespace ModAPI.ModLoad
                         V1Manager.LoadFromMain(ModMainAssembly);
                         break;
                     case Enums.ModAPIEnum.V2:
-                        //V2Manager.LoadFromMain(ModMainAssembly);
+                        V2EventManager.LoadFromMain(ModMainAssembly);
                         break;
                     case Enums.ModAPIEnum.All:
                         V1Manager.LoadFromMain(ModMainAssembly);
-                        //V2Manager.LoadFromMain(ModMainAssembly);
+                        V2EventManager.LoadFromMain(ModMainAssembly);
                         break;
                     default:
                         break;
@@ -79,6 +80,7 @@ namespace ModAPI.ModLoad
 
         public static void DeInit()
         {
+            V2EventManager.Unload();
             V1IModManager.Unload();
             Mods.Clear();
             SharedAssemblies.Clear();
@@ -111,11 +113,11 @@ namespace ModAPI.ModLoad
                         V1Manager.RegisterEvents(assembly);
                         break;
                     case Enums.ModAPIEnum.V2:
-                        //V2Manager.RegisterEvents(assembly);
+                        V2EventManager.LoadFromMain(assembly);
                         break;
                     case Enums.ModAPIEnum.All:
                         V1Manager.RegisterEvents(assembly);
-                        //V2Manager.RegisterEvents(assembly);
+                        V2EventManager.LoadFromMain(assembly);
                         break;
                     default:
                         break;
@@ -146,11 +148,11 @@ namespace ModAPI.ModLoad
                     V1Manager.RegisterEvents(assembly);
                     break;
                 case Enums.ModAPIEnum.V2:
-                    //V2Manager.RegisterEvents(assembly);
+                    V2EventManager.LoadFromMain(assembly);
                     break;
                 case Enums.ModAPIEnum.All:
                     V1Manager.RegisterEvents(assembly);
-                    //V2Manager.RegisterEvents(assembly);
+                    V2EventManager.LoadFromMain(assembly);
                     break;
                 default:
                     break;
