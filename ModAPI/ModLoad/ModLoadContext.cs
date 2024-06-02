@@ -17,10 +17,11 @@ namespace ModAPI.ModLoad
             this._resolver = new AssemblyDependencyResolver(pluginPath);
             this._sharedAssemblies = sharedAssemblies;
             this._mainLoadContext = mainLoadContext;
-            this.AssemblyLoadedPath = string.Empty;
+            this.AssemblyLoadedPath = pluginPath;
             if (string.IsNullOrEmpty(AppContext.BaseDirectory))
             {
-                string? baseDirectory = Path.GetDirectoryName(pluginPath);
+                //Debugger.Print(pluginPath + " " + Path.GetDirectoryName(pluginPath));
+                string? baseDirectory = pluginPath;
                 if (baseDirectory != null)
                 {
                     if (!Path.EndsInDirectorySeparator(baseDirectory))
@@ -28,14 +29,15 @@ namespace ModAPI.ModLoad
                         baseDirectory += Path.DirectorySeparatorChar.ToString();
                     }
                     AppDomain.CurrentDomain.SetData("APP_CONTEXT_BASE_DIRECTORY", baseDirectory);
-                    return;
                 }
-                Console.Error.WriteLine("Failed to set AppContext.BaseDirectory. Dynamic loading of libraries may fail.");
+                else
+                    Console.Error.WriteLine("Failed to set AppContext.BaseDirectory. Dynamic loading of libraries may fail.");
             }
         }
         protected override Assembly? Load(AssemblyName assemblyName)
         {
-            if (assemblyName.Name == null)
+            Debugger.Print($"MLC.Load: {assemblyName.FullName}");
+            if (string.IsNullOrEmpty(assemblyName.Name))
             {
                 return null;
             }
@@ -43,20 +45,28 @@ namespace ModAPI.ModLoad
             {
                 return this._mainLoadContext.LoadFromAssemblyName(assemblyName);
             }
-            string? assemblyPath = this._resolver.ResolveAssemblyToPath(assemblyName);
-            if (assemblyPath != null)
+            string context_file = Path.Combine(AppContext.BaseDirectory, assemblyName.FullName.Split(",")[0] + ".dll");
+            if (File.Exists(context_file))
             {
-                this.AssemblyLoadedPath = assemblyPath;
-                using (FileStream assemblyFile = File.Open(assemblyPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (FileStream assemblyFile = File.Open(context_file, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    string pdbPath = Path.ChangeExtension(assemblyPath, ".pdb");
+                    return base.LoadFromStream(assemblyFile);
+                }
+            }
+
+            string possible_file = Path.Combine(this.AssemblyLoadedPath, assemblyName.FullName.Split(",")[0] + ".dll");
+            if (File.Exists(possible_file))
+            {
+                using (FileStream assemblyFile = File.Open(possible_file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    string pdbPath = Path.ChangeExtension(possible_file, ".pdb");
                     if (File.Exists(pdbPath))
                     {
                         using (FileStream pdbFile = File.Open(pdbPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
                             return base.LoadFromStream(assemblyFile, pdbFile);
                         }
-                    }
+                    };
                     return base.LoadFromStream(assemblyFile);
                 }
             }

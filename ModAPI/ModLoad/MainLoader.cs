@@ -57,6 +57,7 @@ namespace ModAPI.ModLoad
             if (attrib.APIType != Enums.ModAPIEnum.None)
             {
                 ModMainAssembly = assembly;
+                SharedAssemblies.Add(assembly.GetName());
                 ModAPI = attrib.APIType;
                 switch (ModAPI)
                 {
@@ -113,11 +114,11 @@ namespace ModAPI.ModLoad
                         V1Manager.RegisterEvents(assembly);
                         break;
                     case Enums.ModAPIEnum.V2:
-                        V2EventManager.LoadFromMain(assembly);
+                        V2EventManager.LoadPlugin(assembly);
                         break;
                     case Enums.ModAPIEnum.All:
                         V1Manager.RegisterEvents(assembly);
-                        V2EventManager.LoadFromMain(assembly);
+                        V2EventManager.LoadPlugin(assembly);
                         break;
                     default:
                         break;
@@ -129,6 +130,7 @@ namespace ModAPI.ModLoad
 
         public static void LoadPlugin(string DllName)
         {
+            Debugger.Print("Loading plugin: " + DllName);
             string assemblyName = Path.GetFileNameWithoutExtension(DllName);
             List<string> sharedAssemblies = new List<string>();
             foreach (AssemblyName assemblyName2 in SharedAssemblies)
@@ -148,11 +150,11 @@ namespace ModAPI.ModLoad
                     V1Manager.RegisterEvents(assembly);
                     break;
                 case Enums.ModAPIEnum.V2:
-                    V2EventManager.LoadFromMain(assembly);
+                    V2EventManager.LoadPlugin(assembly);
                     break;
                 case Enums.ModAPIEnum.All:
                     V1Manager.RegisterEvents(assembly);
-                    V2EventManager.LoadFromMain(assembly);
+                    V2EventManager.LoadPlugin(assembly);
                     break;
                 default:
                     break;
