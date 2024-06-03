@@ -23,6 +23,30 @@ namespace ModAPI.ModLoad
         {
             SharedAssemblies.Add(CoreApiAssembly.GetName());
             SharedAssemblies.Add(typeof(Godot.GodotObject).Assembly.GetName());
+        }
+
+        public static void AddSharedAssembly(Assembly assembly)
+        {
+            SharedAssemblies.Add(assembly.GetName());
+        }
+
+        public static void AddSharedAssembly(string filename)
+        {
+            try
+            {
+                var assemblyName = AssemblyName.GetAssemblyName(filename);
+                var assembly = MainLoadContext.LoadFromAssemblyPath(filename);
+                Debugger.Print(assemblyName + " Loaded as Dependecy");
+                SharedAssemblies.Add(assemblyName);
+            }
+            catch
+            {
+                //  The file is not a .net file or couldn't be loaded.
+            }
+        }
+
+        public static void LoadDependencies()
+        {
             var dep = Path.Combine(Directory.GetCurrentDirectory(), ModsDirName, "Dependencies");
             if (!Directory.Exists(dep))
                 Directory.CreateDirectory(dep);
@@ -33,19 +57,6 @@ namespace ModAPI.ModLoad
                 Debugger.Print(assemblyName + " Loaded as Dependecy");
                 SharedAssemblies.Add(assemblyName);
             }
-        }
-
-        public static void AddSharedAssembly(Assembly assembly)
-        {
-            SharedAssemblies.Add(assembly.GetName());
-        }
-
-        public static void AddSharedAssembly(string filename)
-        {
-            var assembly = MainLoadContext.LoadFromAssemblyPath(filename);
-            var assemblyName = assembly.GetName();
-            Debugger.Print(assemblyName + " Loaded as Dependecy");
-            SharedAssemblies.Add(assemblyName);
         }
 
         public static bool SetMainModAssembly(Assembly assembly)
@@ -141,7 +152,7 @@ namespace ModAPI.ModLoad
                     sharedAssemblies.Add(sharedAssemblyName);
                 }
             }
-            var tuple = ModLoadContextWrapper.CreateAndLoadFromAssemblyName(new AssemblyName(assemblyName), Path.GetDirectoryName(DllName), sharedAssemblies, MainLoadContext, false);
+            var tuple = ModLoadContextWrapper.CreateAndLoadFromAssemblyName(new AssemblyName(assemblyName), Path.GetDirectoryName(DllName)!, sharedAssemblies, MainLoadContext, false);
             Mods.Add(tuple);
             var assembly = tuple.Item1;
             switch (ModAPI)
