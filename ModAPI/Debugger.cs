@@ -1,13 +1,19 @@
-﻿namespace ModAPI
+﻿using Serilog;
+
+namespace ModAPI
 {
     public class Debugger
     {
-        public static bool Enabled = false;
+        public static ILogger? logger = null;
 
-        public static void Print(string str)
+        public static void ParseLogger(ILogger _logger)
         {
-            if (Enabled)
-                Console.WriteLine(str);
+            logger = _logger;
+        }
+
+        public static void ClearLogger()
+        {
+            logger = null;
         }
     }
 }

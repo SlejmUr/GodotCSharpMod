@@ -1,6 +1,5 @@
-﻿namespace ModAPI.V2
+﻿namespace ModAPI.V2;
+
+public abstract class BaseEvent
 {
-    public abstract class BaseEvent
-    {
-    }
 }

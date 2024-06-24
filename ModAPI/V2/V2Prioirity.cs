@@ -1,17 +1,16 @@
-﻿namespace ModAPI.V2
+﻿namespace ModAPI.V2;
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+public class V2Priority : Attribute
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public class V2Priority : Attribute
+    public int Priority { get; } = 0;
+    public V2Priority(int priority)
     {
-        public int Priority { get; } = 0;
-        public V2Priority(int priority)
-        {
-            Priority = priority;
-        }
+        Priority = priority;
+    }
 
-        public V2Priority()
-        {
+    public V2Priority()
+    {
 
-        }
     }
 }
