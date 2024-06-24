@@ -1,8 +1,5 @@
 ﻿namespace ModAPI
 {
-    /// <summary>
-    /// EXPERIMENTAL
-    /// </summary>
     public struct LoadSettings
     {
         public bool V0_SkipAllAction;
