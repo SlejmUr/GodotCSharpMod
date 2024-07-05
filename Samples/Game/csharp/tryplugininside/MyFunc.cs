@@ -1,10 +1,6 @@
 ﻿using Game.csharp.ModAdds;
-using ModAPI.V1.Attributes;
+using ModAPI.V1;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.csharp.tryplugininside
 {
@@ -13,14 +9,20 @@ namespace Game.csharp.tryplugininside
         [V1Event(7777777)]
         public void Functin(Functioner functioner)
         {
+            Console.WriteLine(functioner.GetNumber());
             functioner.FuncVoidParam(33);
-            Console.WriteLine(functioner.OnlyFunctionHere());
+            Console.WriteLine(functioner.GetNumber());
         }
 
         [V1Event(7777777)]
         public void Functin(IFunctioner functioner)
         {
-            functioner.FuncVoidParam(33);
+            Console.WriteLine(functioner.GetType().FullName);
+            if (functioner is Functioner func)
+            {
+                Console.WriteLine(func.GetNumber());
+            }
+            functioner.FuncVoidParam(66);
             Console.WriteLine(functioner.FuncInt());
         }
     }

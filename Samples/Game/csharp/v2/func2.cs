@@ -1,5 +1,4 @@
 ﻿using ModAPI.V2;
-using System;
 
 namespace Game.csharp.v2
 {
@@ -11,10 +10,12 @@ namespace Game.csharp.v2
 
         public void test()
         {
-            Console.WriteLine("func2.test");
-            Console.WriteLine(x); 
-            Console.WriteLine(y);
             x = x + y;
+        }
+
+        public override string ToString()
+        {
+            return $"func2: {x} {y}";
         }
     }
 }

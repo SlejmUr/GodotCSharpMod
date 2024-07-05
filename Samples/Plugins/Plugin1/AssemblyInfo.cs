@@ -1,5 +1,4 @@
-﻿using ModAPI.Attributes;
-using ModAPI.Enums;
+﻿using ModAPI;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;

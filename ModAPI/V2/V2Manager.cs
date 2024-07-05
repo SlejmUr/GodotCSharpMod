@@ -17,7 +17,7 @@ public class V2Manager
             BaseEventDeclaredTypes.Add(type);
         }
 
-        if (MainLoader.settings.V2_EnableModAsEvent)
+        if (MainLoader.settings.V2_EnableMainAsMod)
             LoadMod(assembly);
     }
 

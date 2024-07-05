@@ -1,26 +1,35 @@
-﻿using ModAPI.V1.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ModAPI.V0;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Plugin1
 {
-    internal class MainMod : IMod
+    class jsonobj
     {
-        public void MethodRegistered(MethodInfo methodInfo, int InterfaceNumber)
+        public string xx;
+    }
+
+    internal class MainMod : V0Mod
+    {
+
+        public override void V1Register(MethodInfo methodInfo, int InterfaceNumber)
         {
             Console.WriteLine("MainMod Checked methodInfo: " + methodInfo.Name + " Int umb:" + InterfaceNumber);
         }
 
-        public void Start()
+        public override void Load()
         {
             Console.WriteLine("START!!!!");
+            // this only here because we want to include Json as used reference!
+            jsonobj jsonobj = new()
+            { 
+                xx = "yeet"
+            };
+            JsonConvert.SerializeObject(jsonobj);
+
         }
 
-        public void Stop()
+        public override void Unload()
         {
             Console.WriteLine("STOP!!!!");
         }

@@ -14,10 +14,12 @@ namespace ModAPI
         public static List<Assembly> Mods = new();
         static List<AssemblyName> LoadedNames = new();
         internal static LoadSettings settings = new();
+        internal static Assembly? CallingAsm;
 
         public static void Init(LoadSettings _settings)
         {
             settings = _settings;
+            CallingAsm = Assembly.GetCallingAssembly();
             Init();
         }
 
@@ -25,9 +27,9 @@ namespace ModAPI
         {
             MainLoadContext.Unloading += MainLoadContext_Unloading;
             MainLoadContext.Resolving += MainLoadContext_Resolving;
-            if (settings.LoadAsMainCaller)
+            if (settings.LoadAsMainCaller && CallingAsm != null)
             {
-                SetMainModAssembly(Assembly.GetCallingAssembly());
+                SetMainModAssembly(CallingAsm);
             }
         }
 
@@ -123,13 +125,23 @@ namespace ModAPI
                 obj.Unload();
         }
 
-        public static bool LoadMod(string mod)
+        public static bool LoadModInMods(string modName)
+        {
+            var mods = Path.Combine(Directory.GetCurrentDirectory(), ModsDirName);
+            if (File.Exists(Path.Combine(mods, modName)))
+            {
+                return LoadMod(Path.Combine(mods, modName));
+            }
+            return false;
+        }
+
+        public static bool LoadMod(string ModPath)
         {
             try
             {
-                Debugger.logger?.Verbose("Loading plugin: " + mod);
+                Debugger.logger?.Verbose("Loading plugin: " + ModPath);
                 // Loading Assembly
-                var asm = MainLoadContext.LoadFromAssemblyPath(mod);
+                var asm = MainLoadContext.LoadFromAssemblyPath(ModPath);
                 var loaded_nv = LoadedNames.Select(x=>x.Name + " v" + x.Version?.ToString());
                 var ref_nv = asm.GetReferencedAssemblies().Select(x => x.Name + " v" + x.Version?.ToString());
                 var req = ref_nv.Where(x=> !loaded_nv.Contains(x)).ToList();
@@ -164,7 +176,7 @@ namespace ModAPI
             }
             catch (Exception ex)
             {
-                Debugger.logger?.Error("Could not load mod {Mod}! {Exception}", mod, ex);
+                Debugger.logger?.Error("Could not load mod {Mod}! {Exception}", ModPath, ex);
                 return false;
             }
         }

@@ -8,6 +8,7 @@
 	<Version>0.0.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
+	  <!-- If you want to remove logging, you need to remove in multiple places. You are free to do so. -->
     <PackageReference Include="Serilog" Version="4.0.0" />
   </ItemGroup>
 </Project>

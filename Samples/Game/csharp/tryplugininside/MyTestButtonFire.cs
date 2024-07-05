@@ -1,11 +1,7 @@
 ﻿using Game.csharp.ModAdds;
-using ModAPI.V1.Attributes;
-using ModAPI.V1.Interfaces;
+using Godot;
+using ModAPI.V1;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.csharp.tryplugininside
 {
@@ -15,14 +11,14 @@ namespace Game.csharp.tryplugininside
         [V1Event(666)]
         public void Test(MyTestButton myTestButton)
         {
-            Console.WriteLine(myTestButton.MyGuid);
+            GD.Print(myTestButton.MyGuid);
         }
 
         //Acceptable
         [V1Event(666)]
         public void TestwithInterface(IMyTestButton myTestButton)
         {
-            Console.WriteLine(myTestButton.MyGuid);
+            GD.Print(myTestButton.MyGuid);
         }
 
         //NOT OK
@@ -31,7 +27,7 @@ namespace Game.csharp.tryplugininside
         {
             if (customModInterface is IMyTestButton button && button != null)
             {
-                Console.WriteLine(button.MyGuid);
+                GD.Print(button.MyGuid);
 
             }
 

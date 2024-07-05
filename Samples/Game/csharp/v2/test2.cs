@@ -1,9 +1,5 @@
 ﻿using ModAPI.V2;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.csharp.v2
 {
@@ -18,6 +14,12 @@ namespace Game.csharp.v2
             Console.WriteLine("test2.test");
             func.test();
             func.y++;
+            Console.WriteLine(this.ToString());
+        }
+
+        public override string ToString()
+        {
+            return $"test 2: {yeet} | {func.ToString()}";
         }
     }
 }

@@ -30,6 +30,8 @@ namespace ModAPI.V1
                     }
                 }
             }
+            if (MainLoader.settings.V1_EnableMainAsMod)
+                RegisterEvents(assembly);
         }
 
         /// <summary>

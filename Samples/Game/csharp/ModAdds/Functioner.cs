@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.csharp.ModAdds
 {
@@ -17,17 +13,19 @@ namespace Game.csharp.ModAdds
 
         public void FuncVoid()
         {
-            Console.WriteLine("Func Viod write");
+            Console.WriteLine("Func Void");
+            Number++;
         }
 
         public void FuncVoidParam(int param)
         {
             Console.WriteLine("FuncVoidParam! Param: " + param);
+            Number += param;
         }
 
-        public int OnlyFunctionHere()
+        public int GetNumber()
         {
-            return InterfaceNumber;
+            return Number;
         }
     }
 }

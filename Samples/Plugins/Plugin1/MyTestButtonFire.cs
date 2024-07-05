@@ -1,7 +1,5 @@
 ﻿using Game.csharp.ModAdds;
-using ModAPI.V1.Attributes;
-using ModAPI.V1.Interfaces;
-using Newtonsoft.Json;
+using ModAPI.V1;
 
 namespace Plugin1
 {
@@ -30,7 +28,6 @@ namespace Plugin1
                 Console.WriteLine("TestwithBasicInterface "+ button.MyGuid);
 
             }
-
         }
     }
 }

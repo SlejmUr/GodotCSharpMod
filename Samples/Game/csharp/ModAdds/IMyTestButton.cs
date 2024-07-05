@@ -1,4 +1,4 @@
-﻿using ModAPI.V1.Interfaces;
+﻿using ModAPI.V1;
 using System;
 
 namespace Game.csharp.ModAdds
