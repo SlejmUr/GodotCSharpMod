@@ -114,6 +114,7 @@ namespace ModAPI
                 return asm;
 
             Debugger.logger?.Warning($"ERROR! You are missing a Dependency! Name: {assemblyName}");
+            File.WriteAllText("Context_ASM.txt", string.Join("\n", context.Assemblies.Select(x=>x.GetName().FullName)));
 
             return null;
         }
@@ -148,6 +149,9 @@ namespace ModAPI
                 if (req.Count > 0)
                 {
                     Debugger.logger?.Warning($"!!! Plugin Requires Assemblies: \n{string.Join("\n", req)}\n Plugin will not load! Fix issues!");
+                    File.WriteAllText("Context_ASM.txt", string.Join("\n", MainLoadContext.Assemblies.Select(x => x.GetName().FullName)));
+                    File.WriteAllText("loaded_nv.txt", string.Join("\n", loaded_nv));
+                    File.WriteAllText("ref_nv.txt", string.Join("\n", ref_nv));
                     return false;
                 }
                 Mods.Add(asm);
