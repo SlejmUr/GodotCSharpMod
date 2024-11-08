@@ -43,8 +43,7 @@ public class V2Manager
             LowPriority_Methods.AddRange(methods.Where(x => x.GetCustomAttribute<V2Priority>() != null && x.GetCustomAttribute<V2Priority>()!.Priority < 0));
         }
 
-        HighPriority_Methods = HighPriority_Methods.OrderByDescending(x => x.GetCustomAttribute<V2Priority>()!.Priority).ToList();
-        foreach (var item in HighPriority_Methods)
+        foreach (var item in HighPriority_Methods.OrderByDescending(x => x.GetCustomAttribute<V2Priority>()!.Priority).ToList())
         {
             Type param = item.GetParameters()[0].ParameterType;
             var @delegate = Delegate.CreateDelegate(Expression.GetActionType(param), item);
@@ -58,8 +57,7 @@ public class V2Manager
             SubscribeEvent(param, @delegate);
             Debugger.logger?.Verbose($"V2 Event type {param} has a calling function: {item} (No Priority)");
         }
-        LowPriority_Methods = LowPriority_Methods.OrderByDescending(x => x.GetCustomAttribute<V2Priority>()!.Priority).ToList();
-        foreach (var item in LowPriority_Methods)
+        foreach (var item in LowPriority_Methods.OrderByDescending(x => x.GetCustomAttribute<V2Priority>()!.Priority).ToList())
         {
             Type param = item.GetParameters()[0].ParameterType;
             var @delegate = Delegate.CreateDelegate(Expression.GetActionType(param), item);
