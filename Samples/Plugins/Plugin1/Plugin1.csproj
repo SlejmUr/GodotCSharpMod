@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
 	<!-- This exist here because we wanna get the Newtonsoft.Json package! -->
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	<!-- Our Game is bui -->
+	<PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

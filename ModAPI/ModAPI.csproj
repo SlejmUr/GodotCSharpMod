@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Configurations>Debug;ExportDebug;ExportRelease</Configurations>
-	<Version>0.0.1.1</Version>
+	<Version>0.0.2</Version>
 	<Authors>SlejmUr</Authors>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageProjectUrl>https://github.com/SlejmUr/GodotCSharpMod</PackageProjectUrl>
@@ -15,6 +15,7 @@
 	<Description>Godot Basic modding for C#</Description>
 	<Title>ModAPI</Title>
   </PropertyGroup>
+	
   <ItemGroup>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
@@ -27,6 +28,6 @@
   </ItemGroup>
   <ItemGroup>
 	  <!-- If you want to remove logging, you need to remove in multiple places. You are free to do so. -->
-    <PackageReference Include="Serilog" Version="4.1.0" />
+    <PackageReference Include="Serilog" Version="4.2.0" />
   </ItemGroup>
 </Project>

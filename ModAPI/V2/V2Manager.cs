@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Linq.Expressions;
 using ModAPI.V0;
+using Serilog;
 
 namespace ModAPI.V2;
 
@@ -13,7 +14,7 @@ public class V2Manager
     {
         foreach (var type in assembly.GetTypes().Where(x => x.IsSubclassOf(typeof(BaseEvent))))
         {
-            Debugger.logger?.Verbose($"V2 Event type added: {type}");
+            Log.Verbose("V2 Event type added {TypeName}", type.Name);
             BaseEventDeclaredTypes.Add(type);
         }
 
@@ -29,7 +30,7 @@ public class V2Manager
 
     public static void LoadMod(Assembly assembly)
     {
-        Debugger.logger?.Verbose("Loading V2 Plugin: " + assembly.FullName);
+        Log.Verbose("Loading V2 Plugin {AssemblyName}", assembly.FullName);
         List<MethodInfo> noPriority_Methods = [];
         List<MethodInfo> HighPriority_Methods = [];
         List<MethodInfo> LowPriority_Methods = [];
@@ -48,21 +49,21 @@ public class V2Manager
             Type param = item.GetParameters()[0].ParameterType;
             var @delegate = Delegate.CreateDelegate(Expression.GetActionType(param), item);
             SubscribeEvent(param, @delegate, item.GetCustomAttribute<V2Priority>());
-            Debugger.logger?.Verbose($"V2 Event type {param} has a calling function: {item} (Priority: {item.GetCustomAttribute<V2Priority>()!.Priority})");
+            Log.Verbose("V2 Event type {TypeName} has a calling function: {MethodName} (Priority {Priority})", param.Name, item.Name, item.GetCustomAttribute<V2Priority>()!.Priority);
         }
         foreach (var item in noPriority_Methods)
         {
             Type param = item.GetParameters()[0].ParameterType;
             var @delegate = Delegate.CreateDelegate(Expression.GetActionType(param), item);
             SubscribeEvent(param, @delegate);
-            Debugger.logger?.Verbose($"V2 Event type {param} has a calling function: {item} (No Priority)");
+            Log.Verbose("V2 Event type {TypeName} has a calling function: {MethodName} (No Priority)", param.Name, item.Name);
         }
         foreach (var item in LowPriority_Methods.OrderByDescending(x => x.GetCustomAttribute<V2Priority>()!.Priority).ToList())
         {
             Type param = item.GetParameters()[0].ParameterType;
             var @delegate = Delegate.CreateDelegate(Expression.GetActionType(param), item);
             SubscribeEvent(param, @delegate, item.GetCustomAttribute<V2Priority>());
-            Debugger.logger?.Verbose($"V2 Event type {param} has a calling function: {item} (Priority: {item.GetCustomAttribute<V2Priority>()!.Priority})");
+            Log.Verbose("V2 Event type {TypeName} has a calling function: {MethodName} (Priority {Priority})", param.Name, item.Name, item.GetCustomAttribute<V2Priority>()!.Priority);
         }
     }
 

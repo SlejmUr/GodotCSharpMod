@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 
 namespace Plugin1
 {
-    class jsonobj
+    class JsonObj
     {
-        public string xx;
+        public string Test = string.Empty;
     }
 
     internal class MainMod : V0Mod
@@ -21,9 +21,9 @@ namespace Plugin1
         {
             Console.WriteLine("START!!!!");
             // this only here because we want to include Json as used reference!
-            jsonobj jsonobj = new()
-            { 
-                xx = "yeet"
+            JsonObj jsonobj = new()
+            {
+                Test = "yeet"
             };
             JsonConvert.SerializeObject(jsonobj);
 

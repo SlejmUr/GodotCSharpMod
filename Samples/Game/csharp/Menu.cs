@@ -5,8 +5,8 @@ using ModAPI.V1;
 using Game.csharp.ModAdds;
 using ModAPI.V2;
 using Game.csharp.v2;
-using System.Reflection;
 using Game.csharp;
+
 namespace Game;
 
 public partial class Menu : Control
@@ -15,7 +15,6 @@ public partial class Menu : Control
 	public override void _Ready()
 	{
         GameLog.CreateNew();
-        Debugger.ParseLogger(GameLog.logger);
         // this is a mod loading settings!
         LoadSettings loadSettings = new()
         { 
@@ -43,7 +42,7 @@ public partial class Menu : Control
         MainLoader.LoadDependencies();
 
         // we load already existing mod from the Samples directory. (Already compiled and put into Mods directory)
-        bool IsSuccess = MainLoader.LoadModInMods("Plugin1.dll");
+        bool IsSuccess = MainLoader.LoadModsInModsDir();
 
         if (!IsSuccess)
         {
@@ -61,7 +60,6 @@ public partial class Menu : Control
     {
         // Not quite neccessary but we want to clean our things.
         MainLoader.DeInit();
-        Debugger.ClearLogger();
         GameLog.Close();
     }
 
