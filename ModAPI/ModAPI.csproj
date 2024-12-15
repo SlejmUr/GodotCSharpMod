@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Configurations>Debug;ExportDebug;ExportRelease</Configurations>
-	<Version>0.0.2</Version>
+	<Version>0.0.2.1</Version>
 	<Authors>SlejmUr</Authors>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageProjectUrl>https://github.com/SlejmUr/GodotCSharpMod</PackageProjectUrl>

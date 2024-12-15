@@ -13,7 +13,6 @@ public class MainLoader
     public static readonly AssemblyLoadContext MainLoadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
     public static string ModsDirName = "Mods";
     public static List<Assembly> Mods { get; internal set; } = [];
-    static List<AssemblyName> LoadedNames = [];
     internal static LoadSettings settings = new();
     internal static Assembly? CallingAsm;
 
@@ -91,7 +90,6 @@ public class MainLoader
             var assembly = MainLoadContext.LoadFromAssemblyPath(dll);
             Log.Debug("{AssemblyName} Loaded as Dependecy!", assembly.GetName());
         }
-        LoadedNames = MainLoadContext.Assemblies.Select(x=>x.GetName()).ToList();
         Log.Information("Loaded all dependency!");
     }
 
@@ -120,9 +118,7 @@ public class MainLoader
             Directory.CreateDirectory(dir);
         List<bool> rets = [];
         foreach (var dll in Directory.GetFiles(dir, "*.dll", SearchOption.TopDirectoryOnly))
-        {
             rets.Add(LoadMod(dll));
-        }
         return !rets.Any(x => x == false);
     }
 
@@ -135,9 +131,7 @@ public class MainLoader
             Directory.CreateDirectory(dir);
         List<bool> rets = [];
         foreach (var dll in Directory.GetFiles(dir, "*.dll", searchOption))
-        {
             rets.Add(LoadMod(dll));
-        }
         return !rets.Any(x=> x == false);
     }
 
@@ -147,10 +141,24 @@ public class MainLoader
         {
             Log.Verbose("Loading plugin: {ModPath}", ModPath);
             // Loading Assembly
-            var asm = MainLoadContext.LoadFromAssemblyPath(ModPath);
-            var loaded_nv = LoadedNames.Select(x=>x.Name + " v" + x.Version?.ToString());
+            return LoadMod(MainLoadContext.LoadFromAssemblyPath(ModPath));
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Could not load mod {Mod}! {Exception}", ModPath, ex);
+            return false;
+        }
+    }
+
+    public static bool LoadMod(Assembly asm)
+    {
+        try
+        {
+            Log.Verbose("Loading plugin: {AssemblyName}", asm.FullName);
+            // Loading Assembly
+            var loaded_nv = MainLoadContext.Assemblies.Select(x => x.GetName().Name + " v" + x.GetName().Version?.ToString());
             var ref_nv = asm.GetReferencedAssemblies().Select(x => x.Name + " v" + x.Version?.ToString());
-            var req = ref_nv.Where(x=> !loaded_nv.Contains(x)).ToList();
+            var req = ref_nv.Where(x => !loaded_nv.Contains(x)).ToList();
             if (req.Count > 0)
             {
                 Log.Warning("!!! Plugin Requires Assemblies: \n{ListOfRequiredAssemblies}\n Plugin will not load! Fix issues!", string.Join("\n", req));
@@ -185,7 +193,7 @@ public class MainLoader
         }
         catch (Exception ex)
         {
-            Log.Error("Could not load mod {Mod}! {Exception}", ModPath, ex);
+            Log.Error("Could not load mod {Mod}! {Exception}", asm.FullName, ex);
             return false;
         }
     }
